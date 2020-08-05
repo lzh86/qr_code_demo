@@ -1,0 +1,65 @@
+{
+  "code": 0
+,"msg": ""
+,"count": 3000000
+,"data": [{
+  "idCard": ""
+,"name": ""
+,"equityProve": ""
+,"equityAdress": ""
+,"application": ""
+,"area": ""
+,"status": ""
+
+},
+  {
+    "idCard": ""
+  ,"name": ""
+  ,"equityProve": ""
+  ,"equityAdress": ""
+  ,"application": ""
+  ,"area": ""
+  ,"status": ""
+
+  },
+  {
+    "idCard": ""
+  ,"name": ""
+  ,"equityProve": ""
+  ,"equityAdress": ""
+  ,"application": ""
+  ,"area": ""
+  ,"status": ""
+
+  },
+  {
+    "idCard": ""
+  ,"name": ""
+  ,"equityProve": ""
+  ,"equityAdress": ""
+  ,"application": ""
+  ,"area": ""
+  ,"status": ""
+
+  },{
+    "idCard": ""
+  ,"name": ""
+  ,"equityProve": ""
+  ,"equityAdress": ""
+  ,"application": ""
+  ,"area": ""
+  ,"status": ""
+
+  },{
+    "idCard": ""
+  ,"name": ""
+  ,"equityProve": ""
+  ,"equityAdress": ""
+  ,"application": ""
+  ,"area": ""
+  ,"status": ""
+
+  }
+
+]
+}

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>不动产查询</title>
+<!--   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+    <script src="http://59.110.242.74:80/static/js/jquery1.11.3.js"></script>
+<!--   <script src="https://heerey525.github.io/layui-v2.4.3/layui/layui.js"></script>-->
+  <script src="http://59.110.242.74:80/static/js/layui.js"></script>
+<!--    <link rel="stylesheet" href="https://heerey525.github.io/layui-v2.4.3/layui/css/layui.css" type="text/css" />-->
+   <script src="http://59.110.242.74:80/static/js/layer.js"></script>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .nav{
+            /* 给上边腾出位置 */
+            padding-top: 60px;
+            height: 100%;
+            width: 200px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            /* 背景颜色 */
+            background-color: rgb(84, 92, 100);
+            /* 居中的话打开下面两行 */
+            /* display: flex;
+            align-items: center; */
+        }
+        ul{
+            width: 100%;
+            height: 100px;
+        }
+        ul li{
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            color: cornsilk;
+            font-family:  Helvetica,Helvetica,sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        ul li:hover{
+            color:rgb(255, 208, 75);
+            background-color: rgb(67, 74, 80);
+        }
+
+
+        body {
+            font-family: "宋体", "Arial", "Helvetica";
+            font-size: 12px;
+            font-style: normal;
+            font-weight: lighter;
+        }
+
+        td {
+            border: 1px solid black;
+            background-color: #eeeeee;
+            padding: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 5px;
+        }
+
+        th {
+            border: 1px solid black;
+            background: #9DACBF;
+            color: #FFF;
+            height: 20px;
+            line-height: 20px
+        }
+
+        body {
+            font-family: "宋体", "Arial", "Helvetica";
+            font-size: 20px;
+            font-style: normal;
+            font-weight: lighter;
+        }
+
+        .head {
+            background-color: #ccc;
+            font-weight: bold;
+        }
+
+        .head b {
+            color: #337ab7;
+        }
+
+        .odd td {
+            background-color: white;
+        }
+
+        .even td {
+            background-color: lavender;
+        }
+
+        .own {
+            margin-left: 4em;
+        }
+    </style>
+    <style>
+        header{
+            border-bottom: 1px solid #eee;
+            width: 100%;
+            height: 60px;
+            background-color: rgb(84, 92, 100);
+            z-index: 10;
+            position: absolute;
+        }
+        .uname{
+            line-height: 60px;
+            float: right;
+            margin-right: 50px;
+            color: #FFF;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        header .items{
+            position: absolute;
+            width: 100px;
+            font-size: 16px;
+            line-height: 30px;
+            text-align: center;
+            height: 30px;
+            color: #fff;
+            top: 61px;
+            right: 30px;
+            background-color: rgb(84, 92, 100);
+            border-radius: 5%;
+            display: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <span class="uname">admin</span>
+    <div class="items">
+        退出
+    </div>
+</header>
+
+<div class="nav">
+    <ul>
+        <li id = "query" onclick="queryInfo()">查询</li>
+        <li id = "enter" onclick="enterInfo()">录入</li>
+    </ul>
+    <div id="tong" style="margin-top: 100px;display: none;">
+         编号：<span id="image_name"></span>
+        <img src=""  id = "imageId" style="width: 180px;height: auto">
+    </div>
+</div>
+
+
+<div style="margin-left: 20px;padding-top: 60px;" align="center">
+<!--    <table width="80%">-->
+<!--        <tr >-->
+<!--            <td align="center">查询</td>-->
+<!--            <td>-->
+<!--                姓名: <input type="text" name="name" id="name" placeholder="姓名"/>&nbsp;&nbsp;-->
+<!--                地址:  <input type="text" name="equityAdress" id="equityAdress" placeholder="地址"/>&nbsp;&nbsp;-->
+<!--                面积:  <input type="text" name="area" id="area" placeholder="面积"/>-->
+<!--                </br></br>-->
+<!--                用途:  <input type="text" name="application" id="application" placeholder="用途"/>&nbsp;&nbsp;-->
+<!--                状态:  <input type="text" name="status" id="status" placeholder="状态"/>&nbsp;&nbsp;-->
+<!--                </br></br>-->
+<!--                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="&nbsp;&nbsp;清 空&nbsp;&nbsp;" onclick="clearAll()"/>&nbsp;&nbsp;-->
+<!--                <input type="button" value="&nbsp;&nbsp;执 行&nbsp;&nbsp;" onclick="query()"/>-->
+<!--            </td >-->
+<!--        </tr>-->
+
+<!--    </table>-->
+    <hr/>
+
+    <div class="tabBox" style="margin-left:110px">
+        <div id="tabContent">
+            <table width="100%">
+                <thead>
+                <div style="margin-top: 1.5em;">
+                    <span id="sum-count">本次共查询到：<b style="color: red;font-size: 18px;" id="query_num">0</b>（条）</span>
+                </div>
+                <tr  style="height: 20px;font-size: 10px;">
+                    <th width="3%">二维码标识</th>
+                    <th width="4%">录入编号</th>
+                    <th width="4%">被查询人身份</th>
+                    <th width="6%">姓名</th>
+                    <th width="5%">不动产权证明</th>
+                    <th width="5%">不动产单元坐落</th>
+                    <th width="2%">用途</th>
+                    <th width="2%">面积</th>
+                    <th width="4%">状态</th>
+                    <th width="3%">操作</th>
+                </tr>
+                </thead>
+                <tbody id="dataInfo" style="font-size: 10px;">
+
+                </tbody>
+
+            </table>
+        </div>
+        <div id="pagehelp" align="center"> </div>
+        <script type="text/javascript">
+
+            $(document).ready(function(){
+                console.log("页面加载完成");
+                $.ajax({
+                    url:"/api/info/queryAll",
+                    data:{},
+                    type:"POST",
+                    dataType:"JSON",
+                    success: function(data){
+                        setCookie('username', "", -1);
+                        console.log(data);
+                        dealInfo(data);
+
+                    }});
+            });
+
+            //设置cookie
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                var expires = "expires="+d.toUTCString();
+                document.cookie = cname + "=" + cvalue + "; " + expires;
+            }
+
+            /**
+             * 展示二维码
+             */
+            $(document).on("click", ".showCode", function () {
+                var msg=$(this).parent().parent().children("td:eq(0)").text();
+                var imageName=$(this).parent().parent().children("td:eq(0)").text();
+                var obj = document.getElementById("image_name");
+                obj.innerText= imageName;
+                document.getElementById("imageId").src = "http://59.110.242.74:8080/image/"  + msg +".png";
+                console.log(msg);
+                showImage();
+            });
+
+            /**
+             * 修改操作
+             * */
+            $(document).on("click", ".update", function () {
+                var msg = $(this).parent().parent().children("td:eq(0)").text();
+                document.cookie="username=" + msg;
+                window.location.href = 'http://xczcg.top:80/api/enter';
+                // $.ajax({
+                //     url: "/api/info/update",
+                //     data: {"id": msg},
+                //     type: "POST",
+                //     dataType: "JSON",
+                //     success: function (data) {
+                //         if (data.code == "200") {
+                //             console.log("修改返回结果");
+                //         }
+                //     }
+                // })
+            })
+
+            /**
+             * 删除操作
+             * */
+            $(document).on("click", ".delete", function () {
+                var msg=$(this).parent().parent().children("td:eq(0)").text();
+                $.ajax({
+                    url:"/api/info/delete",
+                    data:{"id":msg},
+                    type:"POST",
+                    dataType:"JSON",
+                    success: function(data){
+                        if(data.code == "200"){
+                            $("#imageId").css("display", "none");
+                            $(this).parent().parents("tr").remove();
+                            console.log(data.msg + data.code);
+
+                            $.ajax({
+                                url:"/api/info/queryAll",
+                                data:{},
+                                type:"POST",
+                                dataType:"JSON",
+                                success: function(data){
+                                    console.log(data);
+                                    dealInfo(data);
+                                }});
+
+                            alert(data.msg);
+                        }else {
+
+                            console.log(data.msg + data.code);
+                            alert("服务器异常");
+                        }
+                    }});
+
+
+            });
+
+            function showImage() {
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        closeBtn: 0,
+                        area: '200px',
+                        skin: 'layui-layer-nobg', //没有背景色
+                        shadeClose: true,
+                        content: $('#tong')
+                    });
+                });
+            }
+
+            //清除任务
+            function clearAll(){
+                $('#name').val("");
+                $('#equityAdress').val("");
+                $('#area').val("");
+                $('#application').val("");
+                $('#status').val("");
+                // $('#adderss').val("");
+                // $('#adderss').val("");
+
+            }
+
+
+
+            //清除任务
+            function clearAll2(){
+                $('#new_name1').val("");
+                $('#new_name2').val("");
+                $('#new_equityAdress').val("");
+                $('#new_equityProve').val("");
+                $('#new_area').val("");
+                $('#new_application').val("");
+                $('#new_status').val("");
+
+            }
+
+            /**
+             * 查询
+             */
+            function query() {
+                var name = document.getElementById('name').value;
+                var equityAdress = document.getElementById('equityAdress').value;
+                var area = document.getElementById('area').value;
+                var application = document.getElementById('application').value;
+                var status = document.getElementById('status').value;
+
+                var equityProve = "";
+
+                $.ajax({
+                    url:"/api/info/query",
+                    data:{"name":name,"equityProve":equityProve,"equityAdress":equityAdress,"area":area,"application":application,"status":status},
+                    type:"POST",
+                    dataType:"JSON",
+                    success: function(data){
+                        console.log(data);
+                        dealInfo(data);
+                    }});
+            }
+
+            /**
+             * 结果渲染
+             */
+            function dealInfo(data) {
+                var table = document.getElementById("dataInfo");
+                var str  = "";
+                var num = 0;
+                for (var i = 0; i < data.length; i++) {
+                    var id = data[i].id;
+                    var code = data[i].code;
+                    var queryName = data[i].queryName;
+                    var name = data[i].name;
+                    var equityProve = data[i].equityProve;
+                    var equityAdress = data[i].equityAdress;
+                    var application = data[i].application;
+                    var area = data[i].area;
+                    var status = data[i].status;
+
+                    num = num + 1;
+
+                    str += "<tr>" +
+                        "<td>" + id + "</td>" +
+                        "<td>"+ code + "</td>"+
+                        "<td>"+ queryName + "</td>"+
+                        "<td>" + name + "</td>" +
+                        "<td>"+ equityProve +"</td>"+
+                        "<td>" +  equityAdress + "</td>" +
+                        "<td>"+ application + "</td>"+
+                        "<td>"+ area + "</td>"+
+                        "<td>"+ status + "</td>"+
+                        "<td align=\"center\">" +
+                        "<span style=\"color: blue; cursor: pointer;font-size:10px\" site-code='" + '' + "' class=\"showCode\" >" + "二维码 | " + "</span>" +
+                        "<span style=\"color: blue; cursor: pointer;font-size:10px;\" site-code='" + '' + "' class=\"delete\" >" + "</br>" + "删除" + "</span>" +
+                        "<span style=\"color: blue; cursor: pointer;font-size:10px;\" site-code='" + '' + "' class=\"update\" >" + "</br>" + "修改" + "</span>" +
+                        "</td>"+
+                        "</tr>";
+
+                }
+
+                $("#query_num").html(num);
+                table.innerHTML = str;
+            }
+
+
+
+            function queryInfo() {
+                //todo ip替换59.110.242.74
+                window.location.href = 'http://xczcg.top:80/api/index';
+            }
+
+            function enterInfo() {
+                //todo ip替换
+                window.location.href = 'http://xczcg.top:80/api/enter';
+            }
+
+        </script>
+    </div>
+</div>
+<script>
+    document.getElementsByClassName('uname')[0].addEventListener('mouseenter',function(){
+        $('.items').fadeIn()
+    })
+    $('.items')[0].addEventListener('mouseleave',function(){
+        $(this).fadeOut()
+    })
+    $('.items').click(function(e){
+        $.ajax({
+            url:'/api/del/redis', // 请求路径改这里
+            type:'get',
+            success:function(e){
+                $('.items').hide()
+                window.location.href =  'http://xczcg.top/api/enter';
+            }
+        })
+    })
+</script>
+</body>
+
+
+</html>

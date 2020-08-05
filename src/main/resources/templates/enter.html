@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>不动产信息录入</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--    <link rel="stylesheet" href="http://res.layui.com/layui/dist/css/layui.css"  media="all">-->
+   <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
+<!--    <script src="http://59.110.242.74:80/static/js/jquery-3.1.1.min.js"></script>-->
+   <script src="https://heerey525.github.io/layui-v2.4.3/layui/layui.js"></script>
+   <link rel="stylesheet" href="https://heerey525.github.io/layui-v2.4.3/layui/css/layui.css" type="text/css" />
+
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <script src="http://59.110.242.74:80/static/js/jquery1.11.3.js"></script>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .nav{
+        /* 给上边腾出位置 */
+        padding-top: 60px;
+        height: 100%;
+        width: 200px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        /* 背景颜色 */
+        background-color: rgb(84, 92, 100);
+        /* 居中的话打开下面两行 */
+        /* display: flex;
+        align-items: center; */
+    }
+    ul{
+        width: 100%;
+        height: 100px;
+    }
+    ul li{
+        width: 100%;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        color: cornsilk;
+        font-family:  Helvetica,Helvetica,sans-serif;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    ul li:hover{
+        color:rgb(255, 208, 75);
+        background-color: rgb(67, 74, 80);
+    }
+
+
+</style>
+<style>
+    header{
+        border-bottom: 1px solid #eee;
+        width: 100%;
+        height: 60px;
+        background-color: rgb(84, 92, 100);
+        z-index: 10;
+        position: absolute;
+        top: 0;
+    }
+    .uname{
+        line-height: 60px;
+        float: right;
+        margin-right: 50px;
+        color: #FFF;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    header .items{
+        position: absolute;
+        width: 100px;
+        font-size: 16px;
+        line-height: 30px;
+        text-align: center;
+        height: 30px;
+        color: #fff;
+        top: 61px;
+        right: 30px;
+        background-color: rgb(84, 92, 100);
+        border-radius: 5%;
+        display: none;
+        cursor: pointer;
+    }
+</style>
+
+
+<body>
+    <header>
+        <span class="uname">admin</span>
+        <div class="items">
+            退出
+        </div>
+    </header>
+    
+<div class="nav">
+    <ul>
+        <li id = "query"  onclick="queryInfo()">查询</li>
+        <li id = "enter"  onclick="enterInfo()">录入</li>
+    </ul>
+</div>
+
+<div class = "messageinfo" style="margin-left: 210px;margin-top: 65px">
+    <table id="tableID" class="layui-table" lay-data="{url:'http://xczcg.top:80/static/css/package.json', id:'test3'}" lay-filter="test3">
+        <thead>
+        <tr>
+<!--            <th lay-data="{type:'checkbox'}">ID</th>-->
+            <th lay-data="{field:'name',minWidth: 220, sort: true,edit: 'text'}">姓名</th>
+            <th lay-data="{field:'equityProve', edit: 'text', minWidth: 150}">不动产权证明</th>
+            <th lay-data="{field:'equityAdress',  minWidth: 150, edit: 'text'}">不动产坐落</th>
+            <th lay-data="{field:'application', edit: 'text', width:80}">用途</th>
+            <th lay-data="{field:'area',edit: 'text'}">面积</th>
+            <th lay-data="{field:'status',edit: 'text'}">房屋状态</th>
+        </tr>
+        </thead>
+    </table>
+
+    <div id="query_name" style="width: 900px;height: 50px; margin-top: 30px;margin-left: 50px">
+        被查询人身份姓名：<input type="text" name="query_name_info" id="query_name_info" placeholder="张三"/>
+        被查询人身份证：<input type="text"  id="query_idcard_info" placeholder="370548566945785246"/>
+        查询编号：<input type="text" name="query_code_info" id="query_code_info" placeholder="查询编号"/>
+    </div>
+
+
+    <div id="ouou" style="width: 100px;height: 50px; margin-top: 60px;margin-left: 500px">
+        <input id="asd" type="button" value="&nbsp;&nbsp;提 交&nbsp;&nbsp;"  onclick="disk()"/>
+    </div>
+</div>
+
+</body>
+
+<script type="application/javascript">
+
+    layui.use('table', function(){
+        var table = layui.table;
+        //监听单元格编辑
+        table.on('edit(test3)', function(obj){
+            var value = obj.value //得到修改后的值
+                ,data = obj.data //得到所在行所有键值
+                ,field = obj.field; //得到字段
+
+        });
+        console.log(table.valueOf().cache);
+
+    });
+
+    function disk() {
+        var table = layui.table;
+        console.log(table.valueOf().cache.test3);
+        var info = table.valueOf().cache.test3;
+        var name = document.getElementById('query_name_info').value;
+        var code = document.getElementById('query_code_info').value;
+        var idCard = document.getElementById('query_idcard_info').value;
+        if(name == null || name == '' || name==undefined){
+            alert("被查询人姓名不能为空");
+        }
+        if(code == null || code == '' || code==undefined){
+            alert("查询编码不能为空");
+        }
+        if(idCard == null || idCard == '' || idCard==undefined){
+            alert("被查询人身份证号不能为空");
+        }
+        if(name != null && code != null && idCard != null && name != '' && code != '' && idCard != ''){
+            $.ajax({
+                url:"/api/info/enterInfo",
+                data:{info:JSON.stringify(info),name:name,code:code,idCard:idCard},
+                type:"POST",
+                dataType:"JSON",
+                success: function(data){
+                    setCookie('username', "", -1);
+                    if(data.code == "200"){
+                        alert(data.msg);
+                        console.log(data.msg);
+                        setCookie('username', "", -1);
+                    }
+                }});
+        }
+
+    }
+
+    //设置cookie
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+
+    function queryInfo() {
+        //todo ip替换
+        window.location.href = 'http://xczcg.top:80/api/index';
+    }
+
+    function enterInfo() {
+        //todo ip替换 xczcg.top
+        window.location.href = 'http://xczcg.top:80/api/enter';
+    }
+
+
+    document.getElementsByClassName('uname')[0].addEventListener('mouseenter',function(){
+        $('.items').fadeIn()
+    })
+    $('.items')[0].addEventListener('mouseleave',function(){
+        $(this).fadeOut()
+    })
+    $('.items').click(function(e){
+        $.ajax({
+            url:'/api/del/redis', // 请求路径改这里
+            type:'get',
+            success:function(e){
+                $('.items').hide()
+                window.location.href =  'http://xczcg.top/api/enter';
+            }
+        })
+    })
+
+</script>
+
+<script type="application/javascript">
+
+    var userId = document.cookie.split(";")[0].split("=")[1];
+    console.log(userId);
+    if(userId != undefined && userId != null && userId != ""){
+        layui.use('table', function(){
+            var table = layui.table;
+            //页面刷新
+            table.reload('test3', {url: 'http://xczcg.top:80/api/info/queryByUserID?userId=' + userId});
+
+        });
+        queryIDInfoAndCode(userId);
+
+    }else {
+        layui.use('table', function(){
+            var table = layui.table;
+            //页面刷新
+            table.reload('test3', {url: 'http://xczcg.top:80/api/info/queryByUserID?userId='});
+
+        });
+    }
+
+    function queryIDInfoAndCode(userId) {
+        $.ajax({
+            url:"/api/info/queryIDInfoAndCode",
+            data:{"userId":userId},
+            type:"POST",
+            dataType:"JSON",
+            success: function(data){
+                console.log(data);
+                var name = data.name;
+                console.log(name);
+                var idCard = data.idCard;
+                console.log(idCard);
+                var code = data.code;
+                console.log(code);
+
+                $("#query_name_info").val(name);
+                $("#query_idcard_info").val(idCard);
+                $("#query_code_info").val(code);
+            }});
+    }
+
+
+
+</script>
+
+
+
+</html>

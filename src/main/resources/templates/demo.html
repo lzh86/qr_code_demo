@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!--    <link rel="stylesheet" href="http://res.layui.com/layui/dist/css/layui.css"  media="all">-->
+    <script src="http://xczcg.top:80/static/js/jquery-3.1.1.min.js"></script>
+    <script src="http://xczcg.top:80/static/css/layui.js"></script>
+<!--    <link rel="stylesheet" href="https://heerey525.github.io/layui-v2.4.3/layui/css/layui.css" type="text/css" />-->
+   <link rel="stylesheet" href="http://xczcg.top:80/static/css/layui.css" type="text/css" />
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+
+    <table class="layui-table" lay-data="{url:'http://xczcg.top:80/static/css/package.json', id:'test3'}" lay-filter="test3">
+        <thead>
+        <tr>
+            <th lay-data="{type:'checkbox'}">ID</th>
+            <th lay-data="{field:'idCard', width:160, sort: true,edit: 'text'}">身份证号</th>
+            <th lay-data="{field:'name', width:80,edit:'text'}">用户名</th>
+            <th lay-data="{field:'equityProve', edit: 'text', minWidth: 150}">不动产权证明</th>
+            <th lay-data="{field:'equityAdress', width:80, edit: 'text'}">不动产坐落</th>
+            <th lay-data="{field:'application', edit: 'text', minWidth: 100}">用途</th>
+            <th lay-data="{field:'area',edit: 'text'}">面积</th>
+            <th lay-data="{field:'status',edit: 'text'}">房屋状态</th>
+        </tr>
+        </thead>
+    </table>
+
+
+<div id="ouou" style="width: 50px;height: 50px; margin-top: 90px">
+    <input id="asd" type="button" value="&nbsp;&nbsp;执 行&nbsp;&nbsp;"  onclick="disk()"/>
+</div>
+
+
+<!--<script src="//res.layui.com/layui/dist/layui.js" charset="utf-8"></script>-->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script type="application/javascript">
+
+    layui.use('table', function(){
+        var table = layui.table;
+        //监听单元格编辑
+        table.on('edit(test3)', function(obj){
+            var value = obj.value //得到修改后的值
+                ,data = obj.data //得到所在行所有键值
+                ,field = obj.field; //得到字段
+
+        });
+        console.log(table.valueOf().cache);
+
+    });
+
+   function disk() {
+       var table = layui.table;
+       console.log(table.valueOf().cache.test3);
+       var info = table.valueOf().cache.test3;
+       $.ajax({
+           url:"/api/info/enterInfo",
+           data:{info:JSON.stringify(info)},
+           type:"POST",
+           dataType:"JSON",
+           success: function(data){
+               console.log(data);
+           }});
+   }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+.window_super {
+    background: #fff;
+    border: solid 1px #d5d5d5
+}
+
+.window_super td, .window_super th {
+    border: solid 1px #d5d5d5;
+    padding: 5px 8px;
+}
+
+.window_super th {
+    background: #f8f8f8;
+    color: #08304b;
+    text-align: right
+}
+
+html, body {
+    height: 100%;
+}
+
+.moduletitle {
+    border: 1px solid #eee;
+    width: 100px;
+    background: rgb(244, 244, 244);
+    color: red;
+}
+/*easyui �����򣬵�ֻ����ʱ�򣬰ѱ�����ɫ����Ϊ#EDEDED*/
+span.textbox-readonly input.textbox-text[readonly="readonly"] {
+    background: #EDEDED !important;
+}
+
+/**------�������ϱ�����ťͳһ������ʾ���--------*/
+.isShow {
+    /* display:none !important */
+}

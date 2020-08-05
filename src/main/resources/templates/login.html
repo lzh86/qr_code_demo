@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>登录</title>
+	<link rel="stylesheet" type="text/css" href="http://59.110.242.74:80/static/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="http://59.110.242.74:80/static/css/body.css" />
+	<script src="http://59.110.242.74:80/static/js/jquery1.11.3.js"></script>
+
+</head>
+
+
+<body>
+<div class="container">
+	<section id="content">
+		<form>
+			<h1>登录</h1>
+			<div>
+				<input type="text" placeholder="用户" required="" id="username" />
+			</div>
+			<div>
+				<input type="password" placeholder="密码" required="" id="password" />
+			</div>
+			<div class="">
+				<span class="help-block u-errormessage" id="js-server-helpinfo">&nbsp;</span>
+			</div>
+			<div >
+				<input type="button" value="登录" class="btn btn-primary" id="js-btn-login" onclick="login()" />
+<!--				<a href="#">忘记密码?</a>-->
+			</div>
+		</form>
+
+</section>
+</div>
+
+
+
+<br><br><br><br>
+<div style="text-align:center;">
+
+</div>
+
+
+<script type="application/javascript" >
+
+	function login(){
+
+		var userName = document.getElementById('username').value;
+		var passWord = document.getElementById('password').value;
+		var link = document.getElementById('a-upload');
+		console.log(userName + passWord);
+		if((userName !== "admin") || (passWord !== "123456")){
+			alert("用户名或密码输入错误");
+			window.location.href = 'http://xczcg.top:80/api/index';
+		}
+		$.ajax({
+			url:"/api/login/login",
+			data:{ "userName":userName,"passWord":passWord},
+			type:"GET",
+			dataType:"JSON",
+			success: function(data){
+				console.log(data);
+				if(data.code == "200"){
+					console.log("成功");
+					window.location.href = 'http://xczcg.top:80/api/index';
+				}
+			}});
+	}
+
+
+</script>
+
+</body>
+</html>
